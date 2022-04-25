@@ -37,6 +37,7 @@ function Countries() {
               <input
                 type="radio"
                 id={continent}
+                checked={selectedRadio === continent}
                 name="radioContinent"
                 onChange={(e) => {
                   setSelectedRadio(e.target.id);
@@ -47,11 +48,13 @@ function Countries() {
           );
         })}
       </ul>
+      {selectedRadio !== "" && (
+        <button onClick={() => setSelectedRadio("")}>Annuler la recher</button>
+      )}
       <ul>
         {data
-          .filter((pays) => {
-            pays.continents[0].includes(selectedRadio);
-          })
+          .filter((pays) => pays.continents[0].includes(selectedRadio))
+          .sort((a, b) => b.population - a.population)
           .slice(0, range)
           .map((pays, index) => (
             <Card key={index} country={pays} />
